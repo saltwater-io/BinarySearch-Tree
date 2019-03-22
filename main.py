@@ -1,68 +1,91 @@
 from anytree import NodeMixin
 
-root = None
-input_data = []
-output = []
 
 class Node:
-    def __init__(self, parent, left, right, data):
+    def __init__(self, data, parent=None, left=None, right=None):
         self.parent = parent
         self.left = left
         self.right = right
         self.data = data
 
 
-def insert(data, node):
-    if data < node.data:
-        if not node.left:
-            node.left = Node(node, None, None, data)
+class BinarySearchTree:
+    root = None
+
+    def __init__(self, root=None):
+        self.root = root
+
+    def set_root(self, node):
+        self.root = node
+
+    def insert(self, data, node):
+        if not node:
+            new_node = Node(data, None)
+            self.set_root(new_node)
+        if data < node.data:
+            if not node.left:
+                node.left = Node(node, None, None, data)
+            else:
+                self.insert(data, node.left)
+        elif data > node.data:
+            if not node.right:
+                node.right = Node(node, None, None, data)
+            else:
+                self.insert(node.right, data)
+
+    def in_order(self, node):
+        if node:
+            self.in_order(node.left)
+            print(node.data)
+            self.in_order(node.right)
+        pass
+
+    def search(self, val, node):
+        if val == node.data:
+            return True
+        if val < node.data:
+            self.search(val, node.left)
+        elif val > node.data:
+            self.search(val, node.right)
         else:
-            insert(data,node.left)
-    elif data > node.data:
-        if not node.right:
-            node.right = Node(node,None,None,data)
-        else:
-            insert(node.right, data)
+            return False
 
+    def get_successor(self, node):
+        if node.right:
+            return get_min(node.right)
+        y = node.parent
+        while y and node == y.right:
+            node = y
+            y = y.parent
+        return y
 
-def in_order(node):
-    if node:
-        in_order(node.left)
-        print(node.data)
-        in_order(node.right)
-    pass
+    # TODO: This
+    def delete(self, node, val):
+        if not node:
+            return node
+        pass
 
+    # Gets minimum value in BST
+    def get_min(self, node):
+        while node.left:
+            node = node.left
+        return node.data
 
-def delete(node):
-    pass
+    # Gets max value in BST
+    def get_max(self, node):
+        while node.right:
+            node = node.right
+        return node.data
 
-
-def search(val, node):
-    if val == node.data:
-        return True
-    if val < node.data:
-        search(val, node.left)
-    elif val > node.data:
-        search(val, node.right)
-    else:
-        return False
-
-
-# Gets minimum value in BST
-def get_min(node):
-    while node.left:
-        node = node.left
-    return node.data
-
-
-# Gets max value in BST
-def get_max(node):
-    while node.right:
-        node = node.right
-    return node.data
 
 
 def main():
+    input_data = [15, 6, 18, 3, 7, 17, 20, 2, 4, 13, 9]
+    output = []
+    bst = BinarySearchTree()
+    for num in input_data:
+        bst.insert(num, bst.root)
+
     pass
 
 

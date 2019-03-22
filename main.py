@@ -24,7 +24,7 @@ class BinarySearchTree:
             self.set_root(new_node)
         if data < node.data:
             if not node.left:
-                node.left = Node(node, None, None, data)
+                node.left = Node(data, node)
             else:
                 self.insert(data, node.left)
         elif data > node.data:
@@ -52,7 +52,7 @@ class BinarySearchTree:
 
     def get_successor(self, node):
         if node.right:
-            return get_min(node.right)
+            return self.get_min(node.right)
         y = node.parent
         while y and node == y.right:
             node = y

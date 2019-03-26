@@ -1,3 +1,4 @@
+
 from anytree import NodeMixin
 
 
@@ -11,18 +12,20 @@ class Node:
 
 class BinarySearchTree:
     root = None
-
+    # Initial constructor
     def __init__(self, root=None):
         self.root = root
 
+    # Sets root of BST
     def set_root(self, node):
         self.root = node
 
+    # Inserts vale into node
     def insert(self, data, node):
-        if not node:
+        if not self.root:
             new_node = Node(data, None)
             self.set_root(new_node)
-        if data < node.data:
+        elif data < node.data:
             if not node.left:
                 node.left = Node(data, node)
             else:
@@ -50,6 +53,7 @@ class BinarySearchTree:
         else:
             return False
 
+    # Returns succesor of a node
     def get_successor(self, node):
         if node.right:
             return self.get_min(node.right)
